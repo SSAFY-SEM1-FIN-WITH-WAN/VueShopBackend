@@ -33,7 +33,7 @@ public class WebhookController {
     private String githubSecret;
 
     // Mattermost 채널명 (기본값을 다음과 같이 변경: ${WEBHOOK_CHANNEL})
-    @Value("${mattermost.channel:${WEBHOOK_CHANNEL}}")
+    @Value("${mattermost.channel:완진이랑공유}")
     private String mattermostChannel;
 
     // HTTP 요청을 위한 RestTemplate 인스턴스
@@ -110,7 +110,8 @@ public class WebhookController {
             // 페이로드 서명 및 인코딩
             String signature = "sha256=" +
                 Hex.encodeHexString(mac.doFinal(payload.getBytes()));
-
+            System.out.println("Received signature: " + headerSignature);
+            System.out.println("Calculated signature: " + signature);
             // 시그니처 비교 (타이밍 어택 방지를 위해 MessageDigest.isEqual 사용)
             return MessageDigest.isEqual(
                 headerSignature.getBytes(),
@@ -129,7 +130,7 @@ public class WebhookController {
      */
     private String formatGithubMessage(JsonNode payload, String eventType) {
         StringBuilder message = new StringBuilder();
-
+        System.out.println("Received payload: " + payload);
         switch (eventType) {
             case "push":
                 // Push 이벤트 처리
