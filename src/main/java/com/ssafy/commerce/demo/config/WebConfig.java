@@ -7,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.ssafy.commerce.demo.interceptor.AdminInterceptor;
 
-
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
 	

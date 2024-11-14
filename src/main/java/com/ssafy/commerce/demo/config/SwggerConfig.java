@@ -19,3 +19,4 @@ public class SwggerConfig {
 	              .license(new License().name("SSAFY").url("https://www.ssafy.com")));
 	  }
 }
+

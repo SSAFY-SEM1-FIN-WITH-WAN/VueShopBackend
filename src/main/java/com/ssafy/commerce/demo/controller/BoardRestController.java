@@ -1,11 +1,15 @@
 package com.ssafy.commerce.demo.controller;
 
+
+import com.ssafy.commerce.demo.model.service.BoardService;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
+import com.ssafy.commerce.demo.model.dto.SearchCondition;
 import com.ssafy.commerce.demo.model.dto.Board;
 import com.ssafy.commerce.demo.model.service.copy.BoardService;
 
@@ -40,26 +44,24 @@ public class BoardRestController {
 	}
 	
 	//게시글 전체조회
-	@GetMapping("/board")
-	public ResponseEntity<List<Board>> list(){
-		List<Board> list = boardService.getBoardList();
-		return new ResponseEntity<>(list, HttpStatus.OK);
-	}
-	
-	//검색 
 //	@GetMapping("/board")
-//	@Operation(summary = "게시글 검색 및 조회", description = "조건에 따른 검색을 수행할 수 있습니다.")
-//	public ResponseEntity<?> list(@ModelAttribute SearchCondition condition){
-//		System.out.println(condition);
-//		List<Board> list = boardService.search(condition);
-//		
-//		
-//		if(list == null || list.size() == 0) {
-//			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-//		}
-//		return new ResponseEntity<List<Board>>(list, HttpStatus.OK);
+//	public ResponseEntity<List<Board>> list(){
+//		List<Board> list = boardService.getBoardList();
+//		return new ResponseEntity<>(list, HttpStatus.OK);
 //	}
 	
+	//검색 
+	@GetMapping("/board")
+	public ResponseEntity<?> list(@ModelAttribute SearchCondition condition){
+		System.out.println(condition);
+		List<Board> list = boardService.search(condition);
+		
+		
+		if(list == null || list.size() == 0) {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<Board>>(list, HttpStatus.OK);
+	}
 	
 	//게시글 상세 보기
 	@GetMapping("/board/{id}")
@@ -74,9 +76,9 @@ public class BoardRestController {
 	
 	//게시글 등록(Form 데이터 형식으로 넘어왔다)
 	@PostMapping("/board")
-	public ResponseEntity<?> write(@RequestBody Board board){
+
+	public ResponseEntity<?> write(@ModelAttribute Board board){
 		//게시글 등록 요청
-		System.out.println(board.toString());
 		boardService.writeBoard(board); 
 		System.out.println(board);
 		
@@ -123,16 +125,4 @@ public class BoardRestController {
 		
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

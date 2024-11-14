@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.commerce.demo.model.dto.Board;
 import com.ssafy.commerce.demo.model.dto.SearchCondition;
 
+import java.util.List;
 @Mapper
 public interface BoardDao {
 	// 전체 게시글을 조회
@@ -32,5 +33,4 @@ public interface BoardDao {
 
 	// 파일 정보 저장
 	public void insertFile(Board board);
-
 }

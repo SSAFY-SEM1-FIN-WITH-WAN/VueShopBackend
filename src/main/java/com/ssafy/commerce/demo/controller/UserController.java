@@ -58,14 +58,4 @@ public class UserController {
 		model.addAttribute("userList", userService.getUserList());
 		return "/user/adminPage";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
