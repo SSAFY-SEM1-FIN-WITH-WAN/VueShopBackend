@@ -1,5 +1,8 @@
 package com.ssafy.commerce.demo.model.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "게시글 DTO")
 public class Board {
 	private int id;
 	private String title;

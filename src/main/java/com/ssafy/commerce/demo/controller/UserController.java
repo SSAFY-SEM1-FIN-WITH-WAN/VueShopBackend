@@ -5,13 +5,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.commerce.demo.model.dto.User;
-import com.ssafy.commerce.demo.model.service.UserService;
+import com.ssafy.commerce.demo.model.service.copy.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
-@Controller
+@RestController
+@RequestMapping
 public class UserController {
 	
 	private final UserService userService;
@@ -55,14 +58,4 @@ public class UserController {
 		model.addAttribute("userList", userService.getUserList());
 		return "/user/adminPage";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
