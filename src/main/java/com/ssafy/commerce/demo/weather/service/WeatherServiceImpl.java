@@ -7,6 +7,7 @@ import java.net.URLEncoder;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -21,6 +22,9 @@ public class WeatherServiceImpl implements WeatherService{
 	
 	@Autowired
 	private ObjectMapper objectMapper;
+	
+	@Value("${service.key}")
+	private String serviceKey;
 	
 	static int[] temp = new int[] {200, 500, 800, 1100, 1400, 1700, 2000, 2300};
     public WeatherResponseDto requestWeather(double longitude, double latitude) throws IOException{
@@ -48,7 +52,7 @@ public class WeatherServiceImpl implements WeatherService{
 		}
 		System.out.println(requestTime);
         StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=Buo9K03oI9UCt%2FCuWNg%2FHcdugYFepoyIPhF2IzIkY4EWK3pD1kFaGEYiHgdffT7H93PPBjWO%2FW09olyAKpnUpg%3D%3D"); /*Service Key*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "="+serviceKey); /*Service Key*/
         urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
         urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("12", "UTF-8")); /*한 페이지 결과 수*/
         urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
