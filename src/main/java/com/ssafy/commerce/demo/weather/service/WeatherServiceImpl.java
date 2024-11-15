@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,19 +84,11 @@ public class WeatherServiceImpl implements WeatherService{
     }
 
     private static FormattingTime getFormattedTime() {
-        String requestDate = String.valueOf(LocalDateTime.now().toLocalDate()).replaceAll("-", "");
-
-        String currenTime = getTime();
-        String requestTime = "";
-        NearestTimeInfo calculatedTime = getNearestTime(currenTime);
-        requestTime = String.valueOf(calculatedTime.selectedTime);
-        if(requestTime.length()==3) {
-            requestTime="0"+requestTime;
-        }
-        FormattingTime formattedTime = new FormattingTime(requestDate, requestTime);
-        return formattedTime;
+        return new FormattingTime(
+            formatDate(LocalDateTime.now().toLocalDate()),
+            formatTime(getNearestTime(getTime()).selectedTime)
+        );
     }
-
     private static NearestTimeInfo getNearestTime(String currentTime) {
         int minDifference = Integer.MAX_VALUE;
         int selectedTime = 0;
@@ -121,12 +114,13 @@ public class WeatherServiceImpl implements WeatherService{
     private record FormattingTime(String requestDate, String requestTime) {
 
 
+
     }
     // JSON 응답을 WeatherResponseDto로 변환하는 메서드
-
     private WeatherResponseDto parseWeatherResponse(String jsonString) throws IOException {
         return objectMapper.readValue(jsonString, WeatherResponseDto.class);  // ObjectMapper를 사용하여 JSON을 DTO로 변환
     }
+
     private static class NearestTimeInfo{
         private final int timeDifference;
         private final int selectedTime;
@@ -134,9 +128,15 @@ public class WeatherServiceImpl implements WeatherService{
             this.timeDifference = timeDifference;
             this.selectedTime = selectedTime;
         }
-
         public int getSelectedTime(){
             return selectedTime;
         }
+
+    }
+    private static String formatTime(int time) {
+        return String.format("%04d", time);
+    }
+    private static String formatDate(LocalDate date) {
+        return date.toString().replaceAll("-", "");
     }
 }
