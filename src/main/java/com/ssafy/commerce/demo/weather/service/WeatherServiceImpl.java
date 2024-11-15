@@ -1,5 +1,7 @@
 package com.ssafy.commerce.demo.weather.service;
 
+import static java.net.HttpURLConnection.HTTP_BAD_REQUEST;
+
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
@@ -45,17 +47,22 @@ public class WeatherServiceImpl implements WeatherService{
         return parseWeatherResponse(sb.toString());
     }
     private static StringBuilder writeContent(HttpURLConnection conn) throws IOException {
-        BufferedReader rd;
-        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
-        }
         StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
+        boolean isSuccess = conn.getResponseCode() < HTTP_BAD_REQUEST;
+
+        try (BufferedReader rd = isSuccess?
+            new BufferedReader(new InputStreamReader(conn.getInputStream())):
+            new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            ) {
+            String line;
+            while ((line = rd.readLine()) != null) {
+                sb.append(line);
+            }
+            if (!isSuccess) {
+                throw new IOException("API request failed with status " + conn.getResponseCode());
+            }
         }
+
         return sb;
     }
     private StringBuilder getUrlBuilder(int longitude, int latitude,
