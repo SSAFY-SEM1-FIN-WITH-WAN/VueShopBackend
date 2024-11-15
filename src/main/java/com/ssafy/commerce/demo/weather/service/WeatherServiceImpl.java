@@ -64,7 +64,7 @@ public class WeatherServiceImpl implements WeatherService{
 
         try (BufferedReader rd = isSuccess?
             new BufferedReader(new InputStreamReader(conn.getInputStream())):
-            new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+            new BufferedReader(new InputStreamReader(conn.getErrorStream()))
             ) {
             String line;
             while ((line = rd.readLine()) != null) {
