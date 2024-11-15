@@ -25,6 +25,17 @@ public class WeatherServiceImpl implements WeatherService{
     static final String[] TIMEARRAY = new String[] {"200", "500", "800", "1100", "1400", "1700", "2000", "2300"};
     private static final String WEATHER_REQUEST_BASE_URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
     private static final String ENCODING = "UTF-8";
+    public static final String PARAM_PAGE_NO = "pageNo";
+    public static final String DEFAULT_PAGE_NO = "1";
+    public static final String PARAM_ROWS = "numOfRows";
+    public static final String DEFAULT_ROWS = "12";
+    public static final String PARAM_DATA_TYPE = "dataType";
+    public static final String DEFAULT_DATA_TYPE = "JSON";
+    public static final String BASE_DATE = "base_date";
+    public static final String BASE_TIME = "base_time";
+    public static final String NX = "nx";
+    public static final String NY = "ny";
+    public static final String SERVICE_KEY = "serviceKey";
 
     @Autowired
 	private ObjectMapper objectMapper;
@@ -69,14 +80,15 @@ public class WeatherServiceImpl implements WeatherService{
     private StringBuilder getUrlBuilder(int longitude, int latitude,
         FormattingTime formattedTime) throws UnsupportedEncodingException {
         StringBuilder urlBuilder = new StringBuilder(WEATHER_REQUEST_BASE_URL); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey",ENCODING) + "="+serviceKey); /*Service Key*/
-        urlBuilder.append(appendUrlParameter("pageNo","1")); /*페이지번호*/
-        urlBuilder.append(appendUrlParameter("numOfRows","12"));
-        urlBuilder.append(appendUrlParameter("dataType","JSON"));
-        urlBuilder.append(appendUrlParameter("base_date",formattedTime.requestDate().replaceAll("-", "")));
-        urlBuilder.append(appendUrlParameter("base_time",formattedTime.requestTime()));
-        urlBuilder.append(appendUrlParameter("nx",String.valueOf(latitude)));
-        urlBuilder.append(appendUrlParameter("ny",String.valueOf(longitude)));
+        urlBuilder.append("?" + URLEncoder.encode(SERVICE_KEY,ENCODING) + "="+serviceKey); /*Service Key*/
+        urlBuilder.append(appendUrlParameter(PARAM_PAGE_NO, DEFAULT_PAGE_NO)); /*페이지번호*/
+        urlBuilder.append(appendUrlParameter(PARAM_ROWS, DEFAULT_ROWS));
+        urlBuilder.append(appendUrlParameter(PARAM_DATA_TYPE, DEFAULT_DATA_TYPE));
+        urlBuilder.append(appendUrlParameter(
+            BASE_DATE,formattedTime.requestDate().replaceAll("-", "")));
+        urlBuilder.append(appendUrlParameter(BASE_TIME,formattedTime.requestTime()));
+        urlBuilder.append(appendUrlParameter(NX,String.valueOf(latitude)));
+        urlBuilder.append(appendUrlParameter(NY,String.valueOf(longitude)));
         return urlBuilder;
     }
     private static String appendUrlParameter(String key,String value) throws UnsupportedEncodingException {
