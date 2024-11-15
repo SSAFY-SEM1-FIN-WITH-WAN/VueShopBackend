@@ -19,7 +19,7 @@ import java.io.IOException;
 @Service
 public class WeatherServiceImpl implements WeatherService{
 
-    static final int[] TIMEARRAY = new int[] {200, 500, 800, 1100, 1400, 1700, 2000, 2300};
+    static final String[] TIMEARRAY = new String[] {"200", "500", "800", "1100", "1400", "1700", "2000", "2300"};
 
 	@Autowired
 	private ObjectMapper objectMapper;
@@ -78,10 +78,10 @@ public class WeatherServiceImpl implements WeatherService{
     private static FormattingTime getFormattedTime() {
         String requestDate = String.valueOf(LocalDateTime.now().toLocalDate()).replaceAll("-", "");
 
-        String tempTime = getTime();
+        String currenTime = getTime();
         String requestTime = "";
-        int[] calculatedTime = getNearestTime(tempTime);
-        requestTime = String.valueOf(calculatedTime[1]);
+        NearestTimeInfo calculatedTime = getNearestTime(currenTime);
+        requestTime = String.valueOf(calculatedTime.selectedTime);
         if(requestTime.length()==3) {
             requestTime="0"+requestTime;
         }
@@ -89,19 +89,19 @@ public class WeatherServiceImpl implements WeatherService{
         return formattedTime;
     }
 
-    private static int[] getNearestTime(String tempTime) {
-        int result[] =new int[2];
-        result[0]=Integer.MAX_VALUE;
-        for(int i = 0;i< TIMEARRAY.length;i++) {
-            if(String.valueOf(TIMEARRAY[i]).length()==3) {
-                TIMEARRAY[i]=Integer.parseInt("0"+String.valueOf(TIMEARRAY[i])); //2시5시8시를 변환
-            }
-            if(result[0]>Math.abs(Integer.parseInt(tempTime)- TIMEARRAY[i])) {//햔재시간과 가까운 계산된 시간(비교시간)을 result[0]에 둔다.[1]엔 해당 시간과 가까운 상수시간 보관
-                result[0] = Math.abs(Integer.parseInt(tempTime)- TIMEARRAY[i]);
-                result[1]= TIMEARRAY[i];
+    private static NearestTimeInfo getNearestTime(String currentTime) {
+        int minDifference = Integer.MAX_VALUE;
+        int selectedTime = 0;
+        for(String availableTime : TIMEARRAY) {
+            String paddedTime = availableTime.length() == 3 ? "0" + availableTime : availableTime;
+            int timeDifference = Math.abs(
+                Integer.parseInt(currentTime) - Integer.parseInt(paddedTime));
+            if(timeDifference<minDifference) {
+                minDifference=timeDifference;
+                selectedTime = Integer.parseInt(paddedTime);
             }
         }
-        return result;
+        return new NearestTimeInfo(minDifference, selectedTime);
     }
 
     private static String getTime() {
@@ -115,10 +115,23 @@ public class WeatherServiceImpl implements WeatherService{
 
     private record FormattingTime(String requestDate, String requestTime) {
 
-    }
 
+    }
     // JSON 응답을 WeatherResponseDto로 변환하는 메서드
+
     private WeatherResponseDto parseWeatherResponse(String jsonString) throws IOException {
         return objectMapper.readValue(jsonString, WeatherResponseDto.class);  // ObjectMapper를 사용하여 JSON을 DTO로 변환
+    }
+    private static class NearestTimeInfo{
+        private final int timeDifference;
+        private final int selectedTime;
+        public NearestTimeInfo(int timeDifference, int selectedTime) {
+            this.timeDifference = timeDifference;
+            this.selectedTime = selectedTime;
+        }
+
+        public int getSelectedTime(){
+            return selectedTime;
+        }
     }
 }
