@@ -20,13 +20,16 @@ import java.io.IOException;
 public class WeatherServiceImpl implements WeatherService{
 
     static final String[] TIMEARRAY = new String[] {"200", "500", "800", "1100", "1400", "1700", "2000", "2300"};
+    private static final String WEATHER_REQUEST_BASE_URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
+    private static final String ENCODING = "UTF-8";
 
-	@Autowired
+    @Autowired
 	private ObjectMapper objectMapper;
-	
-	@Value("${service.key}")
+
+    @Value("${service.key}")
 	private String serviceKey;
-	
+
+
     public WeatherResponseDto requestWeather(double longitude, double latitude) throws IOException{
         FormattingTime formattedTime = getFormattedTime();
         StringBuilder urlBuilder = getUrlBuilder((int) longitude, (int) latitude, formattedTime);
@@ -41,7 +44,6 @@ public class WeatherServiceImpl implements WeatherService{
         conn.disconnect();
         return parseWeatherResponse(sb.toString());
     }
-
     private static StringBuilder writeContent(HttpURLConnection conn) throws IOException {
         BufferedReader rd;
         if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
@@ -56,23 +58,21 @@ public class WeatherServiceImpl implements WeatherService{
         }
         return sb;
     }
-
     private StringBuilder getUrlBuilder(int longitude, int latitude,
         FormattingTime formattedTime) throws UnsupportedEncodingException {
-        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "="+serviceKey); /*Service Key*/
-        urlBuilder.append("&" + URLEncoder.encode("pageNo","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*페이지번호*/
-        urlBuilder.append("&" + URLEncoder.encode("numOfRows","UTF-8") + "=" + URLEncoder.encode("12", "UTF-8")); /*한 페이지 결과 수*/
-        urlBuilder.append("&" + URLEncoder.encode("dataType","UTF-8") + "=" + URLEncoder.encode("JSON", "UTF-8")); /*요청자료형식(XML/JSON) Default: XML*/
-        urlBuilder.append("&" + URLEncoder.encode("base_date","UTF-8") + "=" + URLEncoder.encode(
-            formattedTime.requestDate().replaceAll("-", ""), "UTF-8")); /*‘21년 6월 28일 발표*/
-        urlBuilder.append("&" + URLEncoder.encode("base_time","UTF-8") + "=" + URLEncoder.encode(
-            formattedTime.requestTime(), "UTF-8")); /*06시 발표(정시단위) */
-        urlBuilder.append("&" + URLEncoder.encode("nx","UTF-8") + "=" + URLEncoder.encode(String.valueOf(
-            latitude), "UTF-8")); /*예보지점의 X 좌표값*/
-        urlBuilder.append("&" + URLEncoder.encode("ny","UTF-8") + "=" + URLEncoder.encode(String.valueOf(
-            longitude), "UTF-8")); /*예보지점의 Y 좌표값*/
+        StringBuilder urlBuilder = new StringBuilder(WEATHER_REQUEST_BASE_URL); /*URL*/
+        urlBuilder.append("?" + URLEncoder.encode("serviceKey",ENCODING) + "="+serviceKey); /*Service Key*/
+        urlBuilder.append(appendUrlParameter("pageNo","1")); /*페이지번호*/
+        urlBuilder.append(appendUrlParameter("numOfRows","12"));
+        urlBuilder.append(appendUrlParameter("dataType","JSON"));
+        urlBuilder.append(appendUrlParameter("base_date",formattedTime.requestDate().replaceAll("-", "")));
+        urlBuilder.append(appendUrlParameter("base_time",formattedTime.requestTime()));
+        urlBuilder.append(appendUrlParameter("nx",String.valueOf(latitude)));
+        urlBuilder.append(appendUrlParameter("ny",String.valueOf(longitude)));
         return urlBuilder;
+    }
+    private static String appendUrlParameter(String key,String value) throws UnsupportedEncodingException {
+        return "&" + URLEncoder.encode(key, ENCODING) + "=" + URLEncoder.encode(value, ENCODING);
     }
 
     private static FormattingTime getFormattedTime() {
