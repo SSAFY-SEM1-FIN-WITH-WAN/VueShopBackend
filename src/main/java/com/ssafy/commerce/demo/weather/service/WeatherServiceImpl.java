@@ -77,29 +77,40 @@ public class WeatherServiceImpl implements WeatherService{
 
     private static FormattingTime getFormattedTime() {
         String requestDate = String.valueOf(LocalDateTime.now().toLocalDate()).replaceAll("-", "");
-        String time = String.valueOf(LocalDateTime.now().getHour());
-        String minute = String.valueOf(LocalDateTime.now().getMinute());
-        int transformedMinute = Integer.parseInt(minute);
-        transformedMinute/=10;
-        String tempTime =time+(Math.round(transformedMinute)*10);
+
+        String tempTime = getTime();
         String requestTime = "";
-        int result[] =new int[2];
-        result[0]=Integer.MAX_VALUE;
-        for(int i = 0;i< TIMEARRAY.length;i++) {
-            if(String.valueOf(TIMEARRAY[i]).length()==3) {
-                TIMEARRAY[i]=Integer.parseInt("0"+String.valueOf(TIMEARRAY[i]));
-            }
-            if(result[0]>Math.abs(Integer.parseInt(tempTime)- TIMEARRAY[i])) {
-                result[0] = Math.abs(Integer.parseInt(tempTime)- TIMEARRAY[i]);
-                result[1]= TIMEARRAY[i];
-            }
-        }
-        requestTime = String.valueOf(result[1]);
+        int[] calculatedTime = getNearestTime(tempTime);
+        requestTime = String.valueOf(calculatedTime[1]);
         if(requestTime.length()==3) {
             requestTime="0"+requestTime;
         }
         FormattingTime formattedTime = new FormattingTime(requestDate, requestTime);
         return formattedTime;
+    }
+
+    private static int[] getNearestTime(String tempTime) {
+        int result[] =new int[2];
+        result[0]=Integer.MAX_VALUE;
+        for(int i = 0;i< TIMEARRAY.length;i++) {
+            if(String.valueOf(TIMEARRAY[i]).length()==3) {
+                TIMEARRAY[i]=Integer.parseInt("0"+String.valueOf(TIMEARRAY[i])); //2시5시8시를 변환
+            }
+            if(result[0]>Math.abs(Integer.parseInt(tempTime)- TIMEARRAY[i])) {//햔재시간과 가까운 계산된 시간(비교시간)을 result[0]에 둔다.[1]엔 해당 시간과 가까운 상수시간 보관
+                result[0] = Math.abs(Integer.parseInt(tempTime)- TIMEARRAY[i]);
+                result[1]= TIMEARRAY[i];
+            }
+        }
+        return result;
+    }
+
+    private static String getTime() {
+        String time = String.valueOf(LocalDateTime.now().getHour());
+        String minute = String.valueOf(LocalDateTime.now().getMinute());
+        int transformedMinute = Integer.parseInt(minute);
+        transformedMinute/=10;//분을 버림
+        String tempTime =time+(Math.round(transformedMinute)*10); //날짜와 시간을 붙이고
+        return tempTime;
     }
 
     private record FormattingTime(String requestDate, String requestTime) {
