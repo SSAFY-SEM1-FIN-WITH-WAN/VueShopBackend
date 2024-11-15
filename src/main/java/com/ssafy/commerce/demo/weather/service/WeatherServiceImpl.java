@@ -105,9 +105,10 @@ public class WeatherServiceImpl implements WeatherService{
     }
 
     private static String getTime() {
-        int transformedMinute = LocalDateTime.now().getMinute();
-        transformedMinute/=10;//분을 버림
-        return String.valueOf(LocalDateTime.now().getHour()) +(Math.round(transformedMinute)*10); //날짜와 시간을 붙이고
+        LocalDateTime now = LocalDateTime.now();
+        int hour = now.getHour();
+        int minute = (now.getMinute()/10)*10;
+        return hour +String.valueOf(minute);
     }
 
     private record FormattingTime(String requestDate, String requestTime) {
