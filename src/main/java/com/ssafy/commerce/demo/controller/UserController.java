@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.commerce.demo.model.dto.User;
-import com.ssafy.commerce.demo.model.service.copy.UserService;
+import com.ssafy.commerce.demo.model.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 

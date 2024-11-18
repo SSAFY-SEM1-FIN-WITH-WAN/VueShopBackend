@@ -28,7 +28,7 @@ public class WeatherServiceImpl implements WeatherService{
     public static final String PARAM_PAGE_NO = "pageNo";
     public static final String DEFAULT_PAGE_NO = "1";
     public static final String PARAM_ROWS = "numOfRows";
-    public static final String DEFAULT_ROWS = "12";
+    public static final String DEFAULT_ROWS = "1000";
     public static final String PARAM_DATA_TYPE = "dataType";
     public static final String DEFAULT_DATA_TYPE = "JSON";
     public static final String BASE_DATE = "base_date";
@@ -68,6 +68,9 @@ public class WeatherServiceImpl implements WeatherService{
             ) {
             String line;
             while ((line = rd.readLine()) != null) {
+            	System.out.println(line);
+            	
+            	System.out.println("===============");
                 sb.append(line);
             }
             if (!isSuccess) {
