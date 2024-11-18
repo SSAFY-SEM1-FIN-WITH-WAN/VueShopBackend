@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.commerce.demo.model.dto.SearchCondition;
 import com.ssafy.commerce.demo.model.dto.Board;
-import com.ssafy.commerce.demo.model.service.copy.BoardService;
 
 import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 import io.swagger.v3.oas.annotations.Hidden;
