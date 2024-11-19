@@ -1,12 +1,16 @@
 package com.ssafy.commerce.demo.cloth.dao;
 
-import org.apache.ibatis.annotations.Mapper;
+import java.util.List;
 
-import com.ssafy.commerce.demo.cloth.dto.ClothResponseDto;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.ssafy.commerce.demo.cloth.entity.Cloth;
+import com.ssafy.commerce.demo.cloth.entity.Type;
 
 @Mapper
 public interface ClothDao {
 
-	public ClothResponseDto select(double temperature);
+	public List<Cloth> selectByTemperatureAndType(@Param("temperature") double temperature,@Param("type") String type);
 
 }
