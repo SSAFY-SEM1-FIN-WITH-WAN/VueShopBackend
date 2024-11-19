@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.commerce.demo.cloth.dto.ClothResponseDto;
@@ -25,8 +26,9 @@ public class ClothController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<?> requestCloth(double temperature) {
+	public ResponseEntity<ClothResponseDto> requestCloth(@RequestParam double temperature) {
 		ClothResponseDto dto = clothService.requestCloth(temperature);
+		System.out.println(dto.toString());
 		return ResponseEntity.ok(dto);
 	}
 }
