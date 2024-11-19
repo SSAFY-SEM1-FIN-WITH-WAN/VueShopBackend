@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 
 @MapperScan(basePackages = "com.ssafy.commerce.demo.cloth.dao")
+@MapperScan(basePackages = "com.ssafy.commerce.demo.model.dao")
 public class DBConfig {
 
 }

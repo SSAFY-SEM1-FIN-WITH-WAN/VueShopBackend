@@ -68,9 +68,9 @@ public class WeatherServiceImpl implements WeatherService{
             ) {
             String line;
             while ((line = rd.readLine()) != null) {
-            	System.out.println(line);
+//            	System.out.println(line);
             	
-            	System.out.println("===============");
+//            	System.out.println("===============");
                 sb.append(line);
             }
             if (!isSuccess) {
