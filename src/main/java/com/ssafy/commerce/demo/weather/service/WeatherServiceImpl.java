@@ -37,16 +37,17 @@ public class WeatherServiceImpl implements WeatherService{
     public static final String NY = "ny";
     public static final String SERVICE_KEY = "serviceKey";
 
+    public static final String reqDate = String.valueOf(LocalDateTime.now().toLocalDate()).replaceAll("-","");
+    public static final String reqTime = String.format("%02d00",LocalDateTime.now().getHour());
+
     @Autowired
 	private ObjectMapper objectMapper;
 
     @Value("${service.key}")
 	private String serviceKey;
 
-
     public WeatherResponseDto requestWeather(double longitude, double latitude) throws IOException{
-        FormattingTime formattedTime = getFormattedTime();
-        StringBuilder urlBuilder = getUrlBuilder((int) longitude, (int) latitude, formattedTime);
+        StringBuilder urlBuilder = getUrlBuilder((int) longitude, (int) latitude, reqDate, reqTime);
 
         URL url = new URL(urlBuilder.toString());
 
@@ -77,19 +78,18 @@ public class WeatherServiceImpl implements WeatherService{
                 throw new IOException("API request failed with status " + conn.getResponseCode());
             }
         }
-
         return sb;
     }
     private StringBuilder getUrlBuilder(int longitude, int latitude,
-        FormattingTime formattedTime) throws UnsupportedEncodingException {
+        String reqDate, String reqTime) throws UnsupportedEncodingException {
         StringBuilder urlBuilder = new StringBuilder(WEATHER_REQUEST_BASE_URL); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode(SERVICE_KEY,ENCODING) + "="+serviceKey); /*Service Key*/
         urlBuilder.append(appendUrlParameter(PARAM_PAGE_NO, DEFAULT_PAGE_NO)); /*페이지번호*/
         urlBuilder.append(appendUrlParameter(PARAM_ROWS, DEFAULT_ROWS));
         urlBuilder.append(appendUrlParameter(PARAM_DATA_TYPE, DEFAULT_DATA_TYPE));
         urlBuilder.append(appendUrlParameter(
-            BASE_DATE,formattedTime.requestDate().replaceAll("-", "")));
-        urlBuilder.append(appendUrlParameter(BASE_TIME,formattedTime.requestTime()));
+            BASE_DATE,reqDate));
+        urlBuilder.append(appendUrlParameter(BASE_TIME,reqTime));
         urlBuilder.append(appendUrlParameter(NX,String.valueOf(latitude)));
         urlBuilder.append(appendUrlParameter(NY,String.valueOf(longitude)));
         return urlBuilder;
@@ -98,60 +98,8 @@ public class WeatherServiceImpl implements WeatherService{
         return "&" + URLEncoder.encode(key, ENCODING) + "=" + URLEncoder.encode(value, ENCODING);
     }
 
-    private static FormattingTime getFormattedTime() {
-        return new FormattingTime(
-            formatDate(LocalDateTime.now().toLocalDate()),
-            formatTime(getNearestTime(getTime()).selectedTime)
-        );
-    }
-    private static NearestTimeInfo getNearestTime(String currentTime) {
-        int minDifference = Integer.MAX_VALUE;
-        int selectedTime = 0;
-        for(String availableTime : TIMEARRAY) {
-            String paddedTime = availableTime.length() == 3 ? "0" + availableTime : availableTime;
-            int timeDifference = Math.abs(
-                Integer.parseInt(currentTime) - Integer.parseInt(paddedTime));
-            if(timeDifference<minDifference) {
-                minDifference=timeDifference;
-                selectedTime = Integer.parseInt(paddedTime);
-            }
-        }
-        return new NearestTimeInfo(minDifference, selectedTime);
-    }
-
-    private static String getTime() {
-        LocalDateTime now = LocalDateTime.now();
-        int hour = now.getHour();
-        int minute = (now.getMinute()/10)*10;
-        return hour +String.valueOf(minute);
-    }
-
-    private record FormattingTime(String requestDate, String requestTime) {
-
-
-
-    }
     // JSON 응답을 WeatherResponseDto로 변환하는 메서드
     private WeatherResponseDto parseWeatherResponse(String jsonString) throws IOException {
         return objectMapper.readValue(jsonString, WeatherResponseDto.class);  // ObjectMapper를 사용하여 JSON을 DTO로 변환
-    }
-
-    private static class NearestTimeInfo{
-        private final int timeDifference;
-        private final int selectedTime;
-        public NearestTimeInfo(int timeDifference, int selectedTime) {
-            this.timeDifference = timeDifference;
-            this.selectedTime = selectedTime;
-        }
-        public int getSelectedTime(){
-            return selectedTime;
-        }
-
-    }
-    private static String formatTime(int time) {
-        return String.format("%04d", time);
-    }
-    private static String formatDate(LocalDate date) {
-        return date.toString().replaceAll("-", "");
     }
 }
