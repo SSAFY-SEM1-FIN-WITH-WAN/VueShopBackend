@@ -13,10 +13,9 @@ public class SwggerConfig {
 	 @Bean
 	  public OpenAPI springShopOpenAPI() {
 	      return new OpenAPI()
-	              .info(new Info().title("Spring Boot Board REST API")
-	              .description("게시판 REST API 입니다.")
-	              .version("v0.0.1")
-	              .license(new License().name("SSAFY").url("https://www.ssafy.com")));
+	              .info(new Info().title("Whats You Look")
+	              .description("옷 추천 서비스입니다.")
+	              .version("v1.0.1"));
 	  }
 }
 
