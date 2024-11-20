@@ -9,21 +9,29 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.ssafy.commerce.demo.interceptor.AdminInterceptor;
+import com.ssafy.commerce.demo.interceptor.JwtInterceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
 	
 	@Autowired
-	AdminInterceptor adminInterceptor;
-	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(adminInterceptor).addPathPatterns("/api-user/users");
-	}
+	private JwtInterceptor jwtInterceptor;
 	
 	@Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         converters.add(new MappingJackson2HttpMessageConverter());
     }
+	
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+	    registry.addInterceptor(jwtInterceptor)
+	        .addPathPatterns("/**")
+	        .excludePathPatterns(
+        		"/swagger-ui/**",
+        		"/v3/api-docs/**",
+	            "/api/users/signup",
+	            "/api/users/login",
+	            "/api/users/password"
+	        );
+	}
 }
