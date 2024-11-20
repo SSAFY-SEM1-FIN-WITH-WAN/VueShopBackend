@@ -22,16 +22,16 @@ public class WebConfig implements WebMvcConfigurer{
         converters.add(new MappingJackson2HttpMessageConverter());
     }
 	
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-	    registry.addInterceptor(jwtInterceptor)
-	        .addPathPatterns("/**")
-	        .excludePathPatterns(
-        		"/swagger-ui/**",
-        		"/v3/api-docs/**",
-	            "/api/users/signup",
-	            "/api/users/login",
-	            "/api/users/password"
-	        );
-	}
+//	@Override
+//	public void addInterceptors(InterceptorRegistry registry) {
+//	    registry.addInterceptor(jwtInterceptor)
+//	        .addPathPatterns("/**")
+//	        .excludePathPatterns(
+//        		"/swagger-ui/**",
+//        		"/v3/api-docs/**",
+//	            "/api/users/signup",
+//	            "/api/users/login",
+//	            "/api/users/password"
+//	        );
+//	}
 }
