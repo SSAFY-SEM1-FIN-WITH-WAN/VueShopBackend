@@ -1,5 +1,6 @@
 package com.ssafy.commerce.demo.cloth.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -23,6 +24,14 @@ public class ClothServiceImpl implements ClothService{
 	    List<Cloth> outers = clothdao.selectByTemperatureAndType(temperature, Type.OUTERS.toString());
 	    List<Cloth> shoes = clothdao.selectByTemperatureAndType(temperature, Type.SHOES.toString());
 
+	    List[] clothList = new List[] {tops,bottoms,outers,shoes};
+	    for(int i = 0 ; i<4;i++) {
+	    	double random = Math.random();
+	    	List<Cloth> tempArr= new ArrayList<>();
+	    	tempArr.add((Cloth) clothList[i].get((int) (clothList[i].size() * random)));
+	    	clothList[i]=tempArr;
+	    }
+	    
 	    return new ClothResponseDto(tops, bottoms, outers, shoes);
 	}
 

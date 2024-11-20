@@ -23,12 +23,12 @@ import java.io.IOException;
 public class WeatherServiceImpl implements WeatherService{
 
     static final String[] TIMEARRAY = new String[] {"200", "500", "800", "1100", "1400", "1700", "2000", "2300"};
-    private static final String WEATHER_REQUEST_BASE_URL = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst";
+    
     private static final String ENCODING = "UTF-8";
     public static final String PARAM_PAGE_NO = "pageNo";
-    public static final String DEFAULT_PAGE_NO = "1";
+    
     public static final String PARAM_ROWS = "numOfRows";
-    public static final String DEFAULT_ROWS = "1000";
+    
     public static final String PARAM_DATA_TYPE = "dataType";
     public static final String DEFAULT_DATA_TYPE = "JSON";
     public static final String BASE_DATE = "base_date";
@@ -38,17 +38,16 @@ public class WeatherServiceImpl implements WeatherService{
     public static final String SERVICE_KEY = "serviceKey";
 
     public static final String reqDate = String.valueOf(LocalDateTime.now().toLocalDate()).replaceAll("-","");
-    public static final String reqTime = String.format("%02d00",LocalDateTime.now().getHour());
-
+    
     @Autowired
 	private ObjectMapper objectMapper;
 
     @Value("${service.key}")
 	private String serviceKey;
 
-    public WeatherResponseDto requestWeather(double longitude, double latitude) throws IOException{
-        StringBuilder urlBuilder = getUrlBuilder((int) longitude, (int) latitude, reqDate, reqTime);
-
+    public WeatherResponseDto requestWeather(double longitude, double latitude,String type,String timeValue,String pageNo,String page) throws IOException{
+        StringBuilder urlBuilder = getUrlBuilder((int) longitude, (int) latitude, reqDate, timeValue, type,pageNo,page);
+        System.out.println(urlBuilder.toString());
         URL url = new URL(urlBuilder.toString());
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -69,7 +68,7 @@ public class WeatherServiceImpl implements WeatherService{
             ) {
             String line;
             while ((line = rd.readLine()) != null) {
-//            	System.out.println(line);
+            	System.out.println(line);
             	
 //            	System.out.println("===============");
                 sb.append(line);
@@ -81,11 +80,11 @@ public class WeatherServiceImpl implements WeatherService{
         return sb;
     }
     private StringBuilder getUrlBuilder(int longitude, int latitude,
-        String reqDate, String reqTime) throws UnsupportedEncodingException {
-        StringBuilder urlBuilder = new StringBuilder(WEATHER_REQUEST_BASE_URL); /*URL*/
+        String reqDate, String reqTime, String type, String pageNo, String pageRows) throws UnsupportedEncodingException {
+        StringBuilder urlBuilder = new StringBuilder(type); /*URL*/
         urlBuilder.append("?" + URLEncoder.encode(SERVICE_KEY,ENCODING) + "="+serviceKey); /*Service Key*/
-        urlBuilder.append(appendUrlParameter(PARAM_PAGE_NO, DEFAULT_PAGE_NO)); /*페이지번호*/
-        urlBuilder.append(appendUrlParameter(PARAM_ROWS, DEFAULT_ROWS));
+        urlBuilder.append(appendUrlParameter(PARAM_PAGE_NO, pageNo)); /*페이지번호*/
+        urlBuilder.append(appendUrlParameter(PARAM_ROWS, pageRows));
         urlBuilder.append(appendUrlParameter(PARAM_DATA_TYPE, DEFAULT_DATA_TYPE));
         urlBuilder.append(appendUrlParameter(
             BASE_DATE,reqDate));
