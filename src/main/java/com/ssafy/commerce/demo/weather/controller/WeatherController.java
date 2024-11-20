@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.commerce.demo.utils.annotation.TimeTrace;
 import com.ssafy.commerce.demo.weather.dto.WeatherResponseDto;
 import com.ssafy.commerce.demo.weather.dto.WeatherResponseDto.Body.Items.Item;
 import com.ssafy.commerce.demo.weather.service.WeatherService;
@@ -34,6 +35,7 @@ public class WeatherController {
 	}
 	
 	@GetMapping
+	@TimeTrace
 	public ResponseEntity<?> requestWeather(double longitude, double latitude) throws IOException{
 		WeatherResponseDto dto = weatherService.requestWeather(longitude,latitude,WEATHER_REQUEST_BASE_URL,reqTime,"3","20");
 		List<Item> itemList = dto.getResponse().getBody().getItems().getItem();
@@ -45,10 +47,11 @@ public class WeatherController {
 		}
 		dto.getResponse().getBody().getItems().setItem(filteredList);
 //		System.out.println("--------------------------------------------");
-//		System.out.println(dto.toString());
+		System.out.println(dto.toString());
 		return ResponseEntity.ok(dto);
 	}
 	
+	@TimeTrace
 	@GetMapping("/2")
 	public ResponseEntity<?> requestWeather2(double longitude, double latitude) throws IOException{
 		WeatherResponseDto dto = weatherService.requestWeather(longitude,latitude,WEATHER_REQUEST_BASE_URL2,reqTime2,"6","5");
@@ -65,6 +68,7 @@ public class WeatherController {
 		return ResponseEntity.ok(dto);
 	}
 	
+	@TimeTrace
 	@GetMapping("/3")
 	public ResponseEntity<?> requestWeather3(double longitude, double latitude) throws IOException{
 		WeatherResponseDto dto = weatherService.requestWeather(longitude,latitude,WEATHER_REQUEST_BASE_URL,reqTime,"8","20");
@@ -80,6 +84,7 @@ public class WeatherController {
 		return ResponseEntity.ok(dto);
 	}
 	
+	@TimeTrace
 	@GetMapping("/4")
 	public ResponseEntity<?> requestWeather4(double longitude, double latitude) throws IOException{
 		WeatherResponseDto dto = weatherService.requestWeather(longitude,latitude,WEATHER_REQUEST_BASE_URL2,reqTime2,"1","500");
@@ -93,8 +98,8 @@ public class WeatherController {
 				
 		}
 		dto.getResponse().getBody().getItems().setItem(filteredList);
-		System.out.println("--------------------------------------------");
-		System.out.println(dto.toString());
+//		System.out.println("--------------------------------------------");
+//		System.out.println(dto.toString());
 		return ResponseEntity.ok(dto);
 	}
 }
