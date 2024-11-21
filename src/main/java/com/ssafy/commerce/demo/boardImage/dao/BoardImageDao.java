@@ -12,7 +12,7 @@ public interface BoardImageDao {
 	
 	public BoardImage selectOne(int id);
 	
-	public int insertFile(BoardImage firebase);
+	public int insertFile(BoardImage boardImage);
 	
 	public int deleteFile(int id);
 	

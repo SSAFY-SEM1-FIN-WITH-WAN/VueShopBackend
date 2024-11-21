@@ -28,17 +28,17 @@ import jakarta.servlet.http.HttpServletRequest;
 public class BoardImageController {
 
 	private final UserService userService;
-	private final BoardImageService firebaseService;
+	private final BoardImageService boardImageService;
 	
-	public BoardImageController(UserService userService, BoardImageService firebaseService) {
+	public BoardImageController(UserService userService, BoardImageService boardImageService) {
 		this.userService = userService;
-		this.firebaseService = firebaseService;
+		this.boardImageService = boardImageService;
 	}
 	
 	@GetMapping("/thumbs")
-	public ResponseEntity<?> firebaseThumbsList() {
+	public ResponseEntity<?> boardImageThumbsList() {
 		
-		List<BoardImage> list = firebaseService.getBoardImageThumbsList();
+		List<BoardImage> list = boardImageService.getBoardImageThumbsList();
 		
 		if (list == null || list.isEmpty())
 			return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
@@ -47,9 +47,9 @@ public class BoardImageController {
 	}
 	
 	@GetMapping("/{boardId}/images")
-	public ResponseEntity<?> firebaseList(@PathVariable int boardId) {
+	public ResponseEntity<?> boardImageList(@PathVariable int boardId) {
 		
-		List<BoardImage> list = firebaseService.getBoardImageList(boardId);
+		List<BoardImage> list = boardImageService.getBoardImageList(boardId);
 		
 		if (list == null || list.isEmpty())
 			return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
@@ -67,9 +67,9 @@ public class BoardImageController {
 		boolean results = true;
 		for (MultipartFile file : files) {
 			if (file != null && !file.isEmpty()) {
-				BoardImage firebase = firebaseService.uploadFirebase(file, userId, boardId);
+				BoardImage boardImage = boardImageService.uploadFirebase(file, userId, boardId);
 				
-				boolean result = firebaseService.uploadDatabase(firebase);
+				boolean result = boardImageService.uploadDatabase(boardImage);
 				if (!result) results = false;
 			}
 		}
@@ -86,18 +86,18 @@ public class BoardImageController {
 		String accountId = (String) request.getAttribute("accountId");
 		User user = userService.getUser(accountId);
 		int userId = user.getId();
-		BoardImage firebase = firebaseService.getBoardImage(imageId);
-		int savedUserId = firebase.getUserId();
+		BoardImage boardImage = boardImageService.getBoardImage(imageId);
+		int savedUserId = boardImage.getUserId();
 		String adminType = user.getType();
 		
 		if (!adminType.equals("super"))
 			if (userId != savedUserId)
 				return new ResponseEntity<Void> (HttpStatus.UNAUTHORIZED);
 		
-		String fileName = firebase.getFileName();
+		String fileName = boardImage.getFileName();
 		
-		firebaseService.deleteFirebase(fileName);
-		boolean result = firebaseService.deleteDatabase(imageId);
+		boardImageService.deleteFirebase(fileName);
+		boolean result = boardImageService.deleteDatabase(imageId);
 		if (!result)
 			return new ResponseEntity<Void> (HttpStatus.BAD_REQUEST);
 		

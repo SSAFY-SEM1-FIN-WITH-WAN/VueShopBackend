@@ -17,51 +17,51 @@ import com.ssafy.commerce.demo.boardImage.dto.BoardImage;
 public class BoardImageServiceImpl implements BoardImageService {
 
 	private final Bucket bucket;
-	private final BoardImageDao firebaseDao;
+	private final BoardImageDao boardImageDao;
 	
-	public BoardImageServiceImpl(Bucket bucket, BoardImageDao firebaseDao) {
+	public BoardImageServiceImpl(Bucket bucket, BoardImageDao boardImageDao) {
 		this.bucket = bucket;
-		this.firebaseDao = firebaseDao;
+		this.boardImageDao = boardImageDao;
 	}
 
 	@Override
 	public List<BoardImage> getBoardImageThumbsList() {
 
-		List<BoardImage> firebases = firebaseDao.selectAllThumbs();
-		for (BoardImage firebase : firebases)
-			System.out.println(firebase);
-		return firebases;
+		List<BoardImage> boardImages = boardImageDao.selectAllThumbs();
+		for (BoardImage boardImage : boardImages)
+			System.out.println(boardImage);
+		return boardImages;
 	}
 
 	@Override
 	public List<BoardImage> getBoardImageList(int boardId) {
 		
-		List<BoardImage> firebases = firebaseDao.selectAll(boardId);
-		for (BoardImage firebase : firebases)
-			System.out.println(firebase);
-		return firebases;
+		List<BoardImage> boardImages = boardImageDao.selectAll(boardId);
+		for (BoardImage boardImage : boardImages)
+			System.out.println(boardImage);
+		return boardImages;
 	}
 
 	@Override
 	public BoardImage getBoardImage(int id) {
 		
-		BoardImage firebase = firebaseDao.selectOne(id);
-		System.out.println(firebase);
-		return firebase;
+		BoardImage boardImage = boardImageDao.selectOne(id);
+		System.out.println(boardImage);
+		return boardImage;
 	}
 
 	@Override
-	public boolean uploadDatabase(BoardImage firebase) {
+	public boolean uploadDatabase(BoardImage boardImage) {
 		
-		boolean result = firebaseDao.insertFile(firebase) == 1;
-		System.out.println(firebase + " | " + result);
+		boolean result = boardImageDao.insertFile(boardImage) == 1;
+		System.out.println(boardImage + " | " + result);
 		return result;
 	}
 
 	@Override
 	public boolean deleteDatabase(int id) {
 		
-		boolean result = firebaseDao.deleteFile(id) == 1;
+		boolean result = boardImageDao.deleteFile(id) == 1;
 		System.out.println(result);
 		return result;
 	}
