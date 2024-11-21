@@ -80,7 +80,7 @@ public class BoardImageController {
 		return new ResponseEntity<Void> (HttpStatus.CREATED);
 	}
 	
-	@DeleteMapping("/{boardId}/iamges/{imageId}")
+	@DeleteMapping("/{boardId}/images/{imageId}")
 	public ResponseEntity<?> delete(@PathVariable int imageId, HttpServletRequest request) {
 		
 		String accountId = (String) request.getAttribute("accountId");
