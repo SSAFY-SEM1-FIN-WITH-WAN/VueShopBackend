@@ -17,6 +17,9 @@ local.properties
 # External tool builders
 .externalToolBuilders/
 
+# Firebase
+src/main/resources/serviceAccountKey.json
+
 # Locally stored "Eclipse launch configurations"
 *.launch
 
