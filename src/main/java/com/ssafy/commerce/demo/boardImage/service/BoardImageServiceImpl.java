@@ -73,16 +73,16 @@ public class BoardImageServiceImpl implements BoardImageService {
         String fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
         String newUniqueName = "images/boards/" + UUID.randomUUID().toString() + fileExtension;
 
-        BoardImage firebase = new BoardImage();
-        firebase.setUserId(userId);
-        firebase.setBoardId(boardId);
-        firebase.setFileName(newUniqueName);
+        BoardImage boardImage = new BoardImage();
+        boardImage.setUserId(userId);
+        boardImage.setBoardId(boardId);
+        boardImage.setFileName(newUniqueName);
         
         bucket.create(newUniqueName, file.getBytes(), file.getContentType());
         String filePath = bucket.get(newUniqueName).signUrl(1, TimeUnit.HOURS).toString();
-		firebase.setFilePath(filePath);
+		boardImage.setFilePath(filePath);
         
-		return firebase;
+		return boardImage;
 	}
 
 	@Override
