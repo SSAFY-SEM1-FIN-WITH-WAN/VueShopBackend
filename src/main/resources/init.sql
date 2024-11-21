@@ -41,14 +41,29 @@ CREATE TABLE Comment (
     FOREIGN KEY (board_id) REFERENCES Board(id) ON DELETE CASCADE
 );
 
--- ImageFile 테이블 생성
-CREATE TABLE ImageFile (
+-- ClothImage 테이블 생성
+CREATE TABLE ClothImage (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    file_name VARCHAR(255) NOT NULL,
+    file_path TEXT NOT NULL
+);
+
+-- ProfileImage 테이블 생성
+CREATE TABLE ProfileImage (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_path TEXT NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+);
+
+-- BoardImage 테이블 생성
+CREATE TABLE BoardImage (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     board_id INT NOT NULL,
-    file_id VARCHAR(255) UNIQUE NOT NULL,
     file_name VARCHAR(255) NOT NULL,
-    file_path VARCHAR(255) UNIQUE NOT NULL,
+    file_path TEXT NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE,
     FOREIGN KEY (board_id) REFERENCES Board(id) ON DELETE CASCADE
 );
@@ -71,6 +86,8 @@ CREATE TABLE Fortune (
 SELECT * FROM User;
 SELECT * FROM Board;
 SELECT * FROM Comment;
-SELECT * FROM ImageFile;
+SELECT * FROM ClothImage;
+SELECT * FROM ProfileImage;
+SELECT * FROM BoardImage;
 SELECT * FROM Zodiac;
 SELECT * FROM Fortune;

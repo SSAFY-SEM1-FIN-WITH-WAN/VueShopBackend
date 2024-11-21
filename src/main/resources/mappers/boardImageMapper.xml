@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.commerce.demo.boardImage.dao.BoardImageDao">
+
+	<select id="selectAllThumbs" resultType="com.ssafy.commerce.demo.boardImage.dto.BoardImage">
+	    SELECT bi.*
+	    FROM BoardImage bi
+	    INNER JOIN (
+	        SELECT board_id, MIN(id) AS min_id
+	        FROM BoardImage
+	        GROUP BY board_id
+	    ) sub ON bi.id = sub.min_id;
+	</select>
+
+	<select id="selectAll" parameterType="int" resultType="com.ssafy.commerce.demo.boardImage.dto.BoardImage">
+		SELECT * FROM BoardImage
+		WHERE board_id = #{boardId};
+	</select>
+	
+	<select id="selectOne" parameterType="int" resultType="com.ssafy.commerce.demo.boardImage.dto.BoardImage">
+		SELECT * FROM BoardImage
+		WHERE id = #{id};
+	</select>
+	
+	<insert id="insertFile" parameterType="com.ssafy.commerce.demo.boardImage.dto.BoardImage" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO BoardImage (user_id, board_id, file_name, file_path)
+		VALUES (#{userId}, #{boardId}, #{fileName}, #{filePath});
+	</insert>
+	
+	<delete id="deleteFile" parameterType="int">
+		DELETE FROM BoardImage
+		WHERE id = #{id};
+	</delete>
+
+</mapper>

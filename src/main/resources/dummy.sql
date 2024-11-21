@@ -16,18 +16,6 @@ INSERT INTO Comment (user_id, user_name, board_id, content) VALUES
 (1, 'admin', 2, 'TESTTESTTEST'),
 (1, 'admin', 3, 'TESTTESTTEST');
 
--- 테스트 이미지
-INSERT INTO ImageFile (user_id, board_id, file_id, file_name, file_path) VALUES
-(1, 1, 'TEST1-1', 'TEST1-1.jpg', '/static/image/board/TEST1-1.jpg'),
-(1, 1, 'TEST1-2', 'TEST1-2.jpg', '/static/image/board/TEST1-2.jpg'),
-(1, 1, 'TEST1-3', 'TEST1-3.jpg', '/static/image/board/TEST1-3.jpg'),
-(1, 2, 'TEST2-1', 'TEST2-1.jpg', '/static/image/board/TEST2-1.jpg'),
-(1, 2, 'TEST2-2', 'TEST2-2.jpg', '/static/image/board/TEST2-2.jpg'),
-(1, 2, 'TEST2-3', 'TEST2-3.jpg', '/static/image/board/TEST2-3.jpg'),
-(1, 3, 'TEST3-1', 'TEST3-1.jpg', '/static/image/board/TEST3-1.jpg'),
-(1, 3, 'TEST3-2', 'TEST3-2.jpg', '/static/image/board/TEST3-2.jpg'),
-(1, 3, 'TEST3-3', 'TEST3-3.jpg', '/static/image/board/TEST3-3.jpg');
-
 -- Zodiac 테이블
 INSERT INTO Zodiac (name, start_date, end_date) VALUES
 ('양자리', '03-21', '04-19'),
