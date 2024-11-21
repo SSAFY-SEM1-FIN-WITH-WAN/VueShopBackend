@@ -1,15 +1,16 @@
 package com.ssafy.commerce.demo.s3;
 
-import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.S3Object;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+
+import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 @Service
 public class S3FileService {
@@ -36,4 +37,21 @@ public class S3FileService {
             System.out.println("Failed to download the file: " + e.getMessage());
         }
     }
+
+	public String uploadFileToS3(String objectPath, String key) {
+		Path path = Paths.get(objectPath);
+		PutObjectRequest putObjectRequest = PutObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .build();
+		try {
+            // 파일 업로드
+            PutObjectResponse response = s3Client.putObject(putObjectRequest, path);
+            System.out.println("File uploaded successfully with ETag: " + response.eTag());
+            return "File uploaded successfully!";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to upload file: " + e.getMessage();
+        }
+	}
 }
