@@ -15,35 +15,35 @@ public class JwtInterceptor implements HandlerInterceptor {
 	@Autowired
 	private JwtUtil jwtUtil;
 	
-//	@Override
-//	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-//			throws Exception {
-//		
-//		String httpMethod = request.getMethod();
-//		String httpRequestURI = request.getRequestURI();
-//		
+	@Override
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+			throws Exception {
+		
+		String httpMethod = request.getMethod();
+		String httpRequestURI = request.getRequestURI();
+		
 //		System.out.println("********************************************");
 //		System.out.println("********************************************");
 //		System.out.println(httpMethod);
 //		System.out.println(httpRequestURI);
-//		
-//		if (httpMethod.equals("OPTIONS") ||
-//				httpMethod.equals("GET") && httpRequestURI.startsWith("/api/boards") || 
-//				httpMethod.equals("GET") && httpRequestURI.startsWith("/api/v1"))
-//			return true;
-//		
-//		String token = request.getHeader("access-token");
-//		
+		
+		if (httpMethod.equals("OPTIONS") ||
+				httpMethod.equals("GET") && httpRequestURI.startsWith("/api/boards") || 
+				httpMethod.equals("GET") && httpRequestURI.startsWith("/api/v1"))
+			return true;
+		
+		String token = request.getHeader("access-token");
+		
 //		System.out.println(token);
 //		System.out.println("********************************************");
 //		System.out.println("********************************************");
-//		
-//		if (token != null) {
-//			
-//			request.setAttribute("accountId", jwtUtil.getAccountIdFromToken(token));
-//			return true;
-//		}
-//		
-//		throw new Exception("유효하지 않은 접근입니다");
-//	}
+		
+		if (token != null) {
+			
+			request.setAttribute("accountId", jwtUtil.getAccountIdFromToken(token));
+			return true;
+		}
+		
+		throw new Exception("유효하지 않은 접근입니다");
+	}
 }

@@ -37,93 +37,92 @@ public class FileController {
 		this.fileService = fileService;
 	}
 	
-	@GetMapping("/{boardId}/images")
-	public ResponseEntity<?> fileList(@PathVariable int boardId) {
-		
-        try {
-            List<ImageFile> imageFiles = fileService.getImageFileList(boardId);
-            List<Resource> resources = new ArrayList<>();
-
-            for (ImageFile imageFile : imageFiles) {
-                Resource resource = fileService.loadAsResource(imageFile.getFilePath());
-                resources.add(resource);
-            }
-
-            if (resources.isEmpty())
-                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-            
-            return new ResponseEntity<List<Resource>>(resources, HttpStatus.OK);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-	}
-	
-	@GetMapping("/{boardId}/images/thumb")
-    public ResponseEntity<?> file(@PathVariable int boardId) {
-    	
-        try {
-            ImageFile imageFile = fileService.getImageFileThumb(boardId);
-            if (imageFile == null) {
-                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-            }
-
-            Resource resource = fileService.loadAsResource(imageFile.getFilePath());
-            if (resource == null)
-                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-            
-            return new ResponseEntity<Resource>(resource, HttpStatus.OK);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-	}
-	
-	@PostMapping("/{boardId}/images")
-	public ResponseEntity<?> create(@PathVariable int boardId, @RequestParam("files") MultipartFile[] files, HttpServletRequest request) throws IllegalStateException, IOException {
-		
-		String accountId = (String) request.getAttribute("accountId");
-		User user = userService.getUser(accountId);
-		int userId = user.getId();
-		
-		List<ImageFile> imageFiles = fileService.convertImageFile(files);
-		
-		boolean results = true;
-		for (ImageFile imageFile : imageFiles) {
-			imageFile.setUserId(userId);
-			imageFile.setBoardId(boardId);
-			
-			boolean result = fileService.uploadImageFile(imageFile);
-			if (!result) results = false;
-		}
-		
-		if (!results)
-			return new ResponseEntity<Void> (HttpStatus.BAD_REQUEST);
-		
-		return new ResponseEntity<Void> (HttpStatus.CREATED);
-	}
-	
-	@DeleteMapping("/{boardId}/images/{imageId}")
-	public ResponseEntity<?> delete(@PathVariable int imageId, HttpServletRequest request) throws IOException {
-		
-		String accountId = (String) request.getAttribute("accountId");
-		User user = userService.getUser(accountId);
-		int userId = user.getId();
-		ImageFile imageFile = fileService.getImageFile(imageId);
-		int savedUserId = imageFile.getUserId();
-		String adminType = user.getType();
-		
-		if (!adminType.equals("super"))
-			if (userId != savedUserId)
-				return new ResponseEntity<Void> (HttpStatus.UNAUTHORIZED);
-		
-		boolean result = fileService.removeImageFile(imageId);
-		if (!result)
-			return new ResponseEntity<Void> (HttpStatus.BAD_REQUEST);
-		
-		return new ResponseEntity<Void> (HttpStatus.OK);
-	}
-	
+//	@GetMapping("/{boardId}/images")
+//	public ResponseEntity<?> fileList(@PathVariable int boardId) {
+//		
+//        try {
+//            List<ImageFile> imageFiles = fileService.getImageFileList(boardId);
+//            List<Resource> resources = new ArrayList<>();
+//
+//            for (ImageFile imageFile : imageFiles) {
+//                Resource resource = fileService.loadAsResource(imageFile.getFilePath());
+//                resources.add(resource);
+//            }
+//
+//            if (resources.isEmpty())
+//                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+//            
+//            return new ResponseEntity<List<Resource>>(resources, HttpStatus.OK);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//	}
+//	
+//	@GetMapping("/{boardId}/images/thumb")
+//    public ResponseEntity<?> file(@PathVariable int boardId) {
+//    	
+//        try {
+//            ImageFile imageFile = fileService.getImageFileThumb(boardId);
+//            if (imageFile == null) {
+//                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+//            }
+//
+//            Resource resource = fileService.loadAsResource(imageFile.getFilePath());
+//            if (resource == null)
+//                return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+//            
+//            return new ResponseEntity<Resource>(resource, HttpStatus.OK);
+//
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return new ResponseEntity<Void>(HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//	}
+//	
+//	@PostMapping("/{boardId}/images")
+//	public ResponseEntity<?> create(@PathVariable int boardId, @RequestParam("files") MultipartFile[] files, HttpServletRequest request) throws IllegalStateException, IOException {
+//		
+//		String accountId = (String) request.getAttribute("accountId");
+//		User user = userService.getUser(accountId);
+//		int userId = user.getId();
+//		
+//		List<ImageFile> imageFiles = fileService.convertImageFile(files);
+//		
+//		boolean results = true;
+//		for (ImageFile imageFile : imageFiles) {
+//			imageFile.setUserId(userId);
+//			imageFile.setBoardId(boardId);
+//			
+//			boolean result = fileService.uploadImageFile(imageFile);
+//			if (!result) results = false;
+//		}
+//		
+//		if (!results)
+//			return new ResponseEntity<Void> (HttpStatus.BAD_REQUEST);
+//		
+//		return new ResponseEntity<Void> (HttpStatus.CREATED);
+//	}
+//	
+//	@DeleteMapping("/{boardId}/images/{imageId}")
+//	public ResponseEntity<?> delete(@PathVariable int imageId, HttpServletRequest request) throws IOException {
+//		
+//		String accountId = (String) request.getAttribute("accountId");
+//		User user = userService.getUser(accountId);
+//		int userId = user.getId();
+//		ImageFile imageFile = fileService.getImageFile(imageId);
+//		int savedUserId = imageFile.getUserId();
+//		String adminType = user.getType();
+//		
+//		if (!adminType.equals("super"))
+//			if (userId != savedUserId)
+//				return new ResponseEntity<Void> (HttpStatus.UNAUTHORIZED);
+//		
+//		boolean result = fileService.removeImageFile(imageId);
+//		if (!result)
+//			return new ResponseEntity<Void> (HttpStatus.BAD_REQUEST);
+//		
+//		return new ResponseEntity<Void> (HttpStatus.OK);
+//	}
 }
