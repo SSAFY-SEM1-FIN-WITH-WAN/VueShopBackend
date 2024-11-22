@@ -24,6 +24,11 @@ public class ClothImage {
 	public void setUniqueName(String uniqueName) {
 		this.uniqueName = uniqueName;
 	}
+	@Override
+	public String toString() {
+		return "ClothImage [id=" + id + ", originalName=" + originalName + ", uniqueName=" + uniqueName + ", minTemp="
+				+ minTemp + ", maxTemp=" + maxTemp + "]";
+	}
 	
 	
 }
