@@ -28,10 +28,10 @@ public class S3FileController {
     }
     
     @PostMapping("/upload")
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
+    public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam double minTMP,@RequestParam double maxTMP) {
         try {
             // 파일을 S3로 업로드하고, 업로드된 파일의 고유 objectKey를 반환
-            String objectKey = s3FileService.uploadFileToS3(file);
+            String objectKey = s3FileService.uploadFileToS3(file,minTMP,maxTMP);
             return "File uploaded successfully with object key: " + objectKey;
         } catch (Exception e) {
             e.printStackTrace();

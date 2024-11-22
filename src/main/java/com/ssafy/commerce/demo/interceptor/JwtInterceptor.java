@@ -29,7 +29,8 @@ public class JwtInterceptor implements HandlerInterceptor {
 		
 		if (httpMethod.equals("OPTIONS") ||
 				httpMethod.equals("GET") && httpRequestURI.startsWith("/api/boards") || 
-				httpMethod.equals("GET") && httpRequestURI.startsWith("/api/v1"))
+				httpMethod.equals("GET") && httpRequestURI.startsWith("/api/v1") ||
+				httpMethod.equals("POST") && httpRequestURI.startsWith("/api/upload"))
 			return true;
 		
 		String token = request.getHeader("access-token");

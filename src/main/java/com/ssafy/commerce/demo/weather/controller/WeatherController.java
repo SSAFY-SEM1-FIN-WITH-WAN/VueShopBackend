@@ -25,37 +25,44 @@ public class WeatherController {
 	private static final String WEATHER_REQUEST_BASE_URL2 = "http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtFcst";
 	public static final String reqTime = String.format("0200");
 	public static final String reqTime2 = String.format("%02d30", LocalDateTime.now().getHour() - 2);
+	public static final String reqTime3 = String.format("%02d00", LocalDateTime.now().getHour()-1);
 	public static final String DEFAULT_PAGE_NO = "3";
 	public static final String DEFAULT_ROWS = "20";
 
 	private WeatherService weatherService;
 
 	public WeatherController(WeatherService weatherService) {
-		this.weatherService = weatherService;
+		this.weatherService = weatherService;	
 	}
 
-	@GetMapping
+	@GetMapping("/TMN")
 	@TimeTrace
 	public ResponseEntity<?> requestWeather(double longitude, double latitude) throws IOException {
 		return requestWeatherWithFilter(longitude, latitude, WEATHER_REQUEST_BASE_URL, reqTime, "3", "20", "0600", "TMN");
 	}
 
-	@GetMapping("/2")
+	@GetMapping("/CurrentTMP")
 	@TimeTrace
 	public ResponseEntity<?> requestWeather2(double longitude, double latitude) throws IOException {
 		return requestWeatherWithFilter(longitude, latitude, WEATHER_REQUEST_BASE_URL2, reqTime2, "6", "5", String.format("%02d00", LocalDateTime.now().getHour()), null);
 	}
 
-	@GetMapping("/3")
+	@GetMapping("/TMX")
 	@TimeTrace
 	public ResponseEntity<?> requestWeather3(double longitude, double latitude) throws IOException {
 		return requestWeatherWithFilter(longitude, latitude, WEATHER_REQUEST_BASE_URL, reqTime, "8", "20", "1500", "TMX");
 	}
 
-	@GetMapping("/4")
+	@GetMapping("/PTY")
 	@TimeTrace
 	public ResponseEntity<?> requestWeather4(double longitude, double latitude) throws IOException {
-		return requestWeatherWithFilter(longitude, latitude, WEATHER_REQUEST_BASE_URL2, reqTime2, "1", "500", String.format("%02d00", LocalDateTime.now().getHour()), "PTY");
+		return requestWeatherWithFilter(longitude, latitude, WEATHER_REQUEST_BASE_URL2, reqTime3, "2", "6", String.format("%02d00", LocalDateTime.now().getHour()), "PTY");
+	}
+	
+	@GetMapping("/SKY")
+	@TimeTrace
+	public ResponseEntity<?> requestWeather5(double longitude, double latitude) throws IOException {
+		return requestWeatherWithFilter(longitude, latitude, WEATHER_REQUEST_BASE_URL2, reqTime3, "4", "6", String.format("%02d00", LocalDateTime.now().getHour()), "SKY");
 	}
 
 	private ResponseEntity<?> requestWeatherWithFilter(double longitude, double latitude, String baseUrl, String reqTime, String pageNo, String numOfRows, String fcstTime, String category) throws IOException {

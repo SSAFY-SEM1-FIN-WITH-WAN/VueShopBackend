@@ -45,9 +45,21 @@ CREATE TABLE Comment (
 
 -- ClothImage 테이블 생성
 CREATE TABLE ClothImage (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    original_name VARCHAR(255) NOT NULL,
+    unique_name VARCHAR(255) NOT NULL,
+    min_tmp double NOT NULL,
+    max_tmp double NOT NULL
+);
+
+-- ProfileImage 테이블 생성
+CREATE TABLE ProfileImage (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
     file_name VARCHAR(255) NOT NULL,
-    file_path VARCHAR(2048) NOT NULL
+    file_path TEXT NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+
 );
 
 -- BoardImage 테이블 생성
