@@ -1,5 +1,6 @@
 package com.ssafy.commerce.demo.user.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.commerce.demo.user.dto.Fortune;
 import com.ssafy.commerce.demo.user.dto.LoginRequest;
@@ -92,13 +95,7 @@ public class UserController {
 		User loginUser = userService.getUser(loginAccountId);
 		int loginUserId = loginUser.getId();
 		
-		String savedAccountId = user.getAccountId();
-		User savedUser = userService.getUser(savedAccountId);
-		int savedUserId = savedUser.getId();
-		user.setId(savedUserId);
-		
-		if (loginUserId != savedUserId)
-			return new ResponseEntity<Void> (HttpStatus.UNAUTHORIZED);
+		user.setId(loginUserId);
 		
 		if (!userService.modifyUser(user))
 			return new ResponseEntity<Void> (HttpStatus.INTERNAL_SERVER_ERROR);
@@ -127,5 +124,35 @@ public class UserController {
 			return new ResponseEntity<Void> (HttpStatus.UNAUTHORIZED);
 		
 		return new ResponseEntity<Fortune> (fortune, HttpStatus.OK);
+	}
+	
+	@PutMapping("/profile/update")
+	public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file, HttpServletRequest request) throws IOException {
+		
+		String accountId = (String) request.getAttribute("accountId");
+		User user = userService.getUser(accountId);
+		
+		User newUser = userService.uploadFirebase(file, user);
+		
+		boolean result = userService.updateDatebase(newUser);
+		if (!result)
+			return new ResponseEntity<Void> (HttpStatus.BAD_REQUEST);
+		
+		return new ResponseEntity<Void> (HttpStatus.CREATED);
+	}
+	
+	@PutMapping("/profile/reset")
+	public ResponseEntity<?> reset(HttpServletRequest request) {
+		
+		String accountId = (String) request.getAttribute("accountId");
+		User user = userService.getUser(accountId);
+		
+		User newUser = userService.resetDatabase(user);
+		
+		boolean result = userService.updateDatebase(newUser);
+		if (!result)
+			return new ResponseEntity<Void> (HttpStatus.BAD_REQUEST);
+		
+		return new ResponseEntity<Void> (HttpStatus.CREATED);
 	}
 }

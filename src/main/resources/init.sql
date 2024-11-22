@@ -14,6 +14,8 @@ CREATE TABLE User (
     nickname VARCHAR(100) UNIQUE NOT NULL,
     birth_date DATE NOT NULL,
     zodiac_sign VARCHAR(50) DEFAULT 'unknown' NOT NULL,
+	file_name VARCHAR(255) NOT NULL DEFAULT 'images/profiles/980970d3-3772-4a59-9f1c-a02680e19720.png',
+    file_path VARCHAR(2048) NOT NULL DEFAULT 'https://firebasestorage.googleapis.com/v0/b/whatsyoulook-11c33.firebasestorage.app/o/images%2Fprofiles%2F980970d3-3772-4a59-9f1c-a02680e19720.png?alt=media&token=5a619049-f799-432e-aac2-bbeced00195f',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -57,6 +59,7 @@ CREATE TABLE ProfileImage (
     file_name VARCHAR(255) NOT NULL,
     file_path TEXT NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
+
 );
 
 -- BoardImage 테이블 생성
@@ -65,7 +68,7 @@ CREATE TABLE BoardImage (
     user_id INT NOT NULL,
     board_id INT NOT NULL,
     file_name VARCHAR(255) NOT NULL,
-    file_path TEXT NOT NULL,
+    file_path VARCHAR(2048) NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE,
     FOREIGN KEY (board_id) REFERENCES Board(id) ON DELETE CASCADE
 );
@@ -89,7 +92,6 @@ SELECT * FROM User;
 SELECT * FROM Board;
 SELECT * FROM Comment;
 SELECT * FROM ClothImage;
-SELECT * FROM ProfileImage;
 SELECT * FROM BoardImage;
 SELECT * FROM Zodiac;
 SELECT * FROM Fortune;

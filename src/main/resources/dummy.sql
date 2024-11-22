@@ -1,8 +1,8 @@
 USE whats_you_db;
 
 -- 관리자 계정
-INSERT INTO User (type, account_id, password, nickname, birth_date, zodiac_sign, created_at) VALUES 
-('super', 'admin', 'admin', 'admin', '2000-01-01', '염소자리', '2000-01-01 00:00:00');
+INSERT INTO User (type, account_id, password, nickname, birth_date, zodiac_sign, file_name, file_path, created_at) VALUES 
+('super', 'admin', 'admin', 'admin', '2000-01-01', '염소자리', 'images/profiles/980970d3-3772-4a59-9f1c-a02680e19720.png', 'https://firebasestorage.googleapis.com/v0/b/whatsyoulook-11c33.firebasestorage.app/o/images%2Fprofiles%2F980970d3-3772-4a59-9f1c-a02680e19720.png?alt=media&token=5a619049-f799-432e-aac2-bbeced00195f', '2000-01-01 00:00:00');
 
 -- 테스트 게시글
 INSERT INTO Board (user_id, user_name, title, content) VALUES
