@@ -43,9 +43,11 @@ CREATE TABLE Comment (
 
 -- ClothImage 테이블 생성
 CREATE TABLE ClothImage (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    file_name VARCHAR(255) NOT NULL,
-    file_path TEXT NOT NULL
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    original_name VARCHAR(255) NOT NULL,
+    unique_name VARCHAR(255) NOT NULL,
+    min_tmp double NOT NULL,
+    max_tmp double NOT NULL
 );
 
 -- ProfileImage 테이블 생성
