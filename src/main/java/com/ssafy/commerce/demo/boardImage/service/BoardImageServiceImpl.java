@@ -8,7 +8,6 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.Bucket;
 import com.ssafy.commerce.demo.boardImage.dao.BoardImageDao;
 import com.ssafy.commerce.demo.boardImage.dto.BoardImage;
@@ -79,7 +78,7 @@ public class BoardImageServiceImpl implements BoardImageService {
         boardImage.setFileName(newUniqueName);
         
         bucket.create(newUniqueName, file.getBytes(), file.getContentType());
-        String filePath = bucket.get(newUniqueName).signUrl(1, TimeUnit.HOURS).toString();
+        String filePath = bucket.get(newUniqueName).signUrl(10, TimeUnit.DAYS).toString();
 		boardImage.setFilePath(filePath);
         
 		return boardImage;

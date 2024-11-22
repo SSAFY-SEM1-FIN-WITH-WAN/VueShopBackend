@@ -16,6 +16,8 @@ public interface UserDao {
 	
 	public int updateUser(User user);
 	
+	public int updateProfile(User user);
+	
 	public User validateUser(LoginRequest loginRequest);
 	
 	public String getPasswordHintByNickname(PasswordFinder finder);

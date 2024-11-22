@@ -11,6 +11,8 @@ public class User {
 	private String nickname;
 	private LocalDate birthDate;
 	private String zodiacSign;
+	private String fileName;
+	private String filePath;
 	private LocalDateTime createdAt;
 	
 	public int getId() {
@@ -55,6 +57,18 @@ public class User {
 	public void setZodiacSign(String zodiacSign) {
 		this.zodiacSign = zodiacSign;
 	}
+	public String getFileName() {
+		return fileName;
+	}
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	public String getFilePath() {
+		return filePath;
+	}
+	public void setFilePath(String filePath) {
+		this.filePath = filePath;
+	}
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
 	}
@@ -65,7 +79,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", type=" + type + ", accountId=" + accountId + ", password=" + password
-				+ ", nickname=" + nickname + ", birthDate=" + birthDate + ", zodiacSign=" + zodiacSign + ", createdAt="
-				+ createdAt + "]";
+				+ ", nickname=" + nickname + ", birthDate=" + birthDate + ", zodiacSign=" + zodiacSign + ", fileName="
+				+ fileName + ", filePath=" + filePath + ", createdAt=" + createdAt + "]";
 	}
 }
