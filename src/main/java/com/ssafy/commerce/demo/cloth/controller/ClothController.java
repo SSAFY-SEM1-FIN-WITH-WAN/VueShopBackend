@@ -16,7 +16,7 @@ import com.ssafy.commerce.demo.weather.service.WeatherService;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("api/v1/cloth")
+@RequestMapping("api/v1")
 public class ClothController {
 
 	private ClothService clothService;
@@ -25,7 +25,7 @@ public class ClothController {
 		this.clothService = clothService;
 	}
 	
-	@GetMapping
+	@GetMapping("/cloth")
 	public ResponseEntity<ClothResponseDto> requestCloth(@RequestParam double temperature) {
 		ClothResponseDto dto = clothService.requestCloth(temperature);
 		System.out.println(dto.toString());

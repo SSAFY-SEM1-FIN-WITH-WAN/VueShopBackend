@@ -3,10 +3,12 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ssafy.commerce.demo.cloth.dao.ClothDao">
-	<select id="selectByTemperatureAndType" resultType="com.ssafy.commerce.demo.cloth.entity.Cloth" parameterType="map">
-		SELECT * FROM cloth
-		<![CDATA[WHERE min_temp <= #{temperature}
-		AND max_temp >= #{temperature}
-		AND type = #{type};]]>
+	
+	
+	<select id="selectImageByTemperature" resultType="com.ssafy.commerce.demo.s3.entity.ClothImage" parameterType="double">
+		SELECT * FROM image
+		<![CDATA[WHERE min_tmp <= #{temperature}
+		AND max_tmp >= #{temperature}
+		]]>
 	</select>
 </mapper>
