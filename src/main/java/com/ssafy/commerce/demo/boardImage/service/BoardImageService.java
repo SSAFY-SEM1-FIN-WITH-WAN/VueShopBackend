@@ -15,7 +15,7 @@ public interface BoardImageService {
 	
 	public BoardImage getBoardImage(int id);
 	
-	public boolean uploadDatabase(BoardImage firebase);
+	public boolean uploadDatabase(BoardImage boardImage);
 	
 	public boolean deleteDatabase(int id);
 	

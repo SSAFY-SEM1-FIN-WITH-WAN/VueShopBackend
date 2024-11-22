@@ -40,7 +40,7 @@ public class BoardImage {
 	
 	@Override
 	public String toString() {
-		return "Firebase [id=" + id + ", userId=" + userId + ", boardId=" + boardId + ", fileName=" + fileName
+		return "BoardImage [id=" + id + ", userId=" + userId + ", boardId=" + boardId + ", fileName=" + fileName
 				+ ", filePath=" + filePath + "]";
 	}
 }
