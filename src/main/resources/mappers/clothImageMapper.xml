@@ -7,13 +7,21 @@
 
     <!-- 이미지 정보 삽입 -->
     <insert id="insertImage" parameterType="com.ssafy.commerce.demo.s3.entity.ClothImage">
-        INSERT INTO image (original_name, unique_name)
-        VALUES (#{originalName}, #{uniqueName})
+        INSERT INTO image (original_name, unique_name, min_tmp, max_tmp)
+        VALUES (#{originalName}, #{uniqueName}, #{minTemp}, #{maxTemp})
     </insert>
+    
+    <select id="selectImageByTemperature" resultType="com.ssafy.commerce.demo.s3.entity.ClothImage" parameterType="double">
+		SELECT * FROM image
+		<![CDATA[WHERE min_temp <= #{temperature}
+		AND max_temp >= #{temperature}
+		AND type = #{type};]]>
+	</select>
     
     <!-- uniqueName으로 이미지 조회 -->
     <select id="selectImageByUniqueName" resultType="com.ssafy.commerce.demo.s3.entity.ClothImage">
         SELECT * FROM image WHERE unique_name = #{uniqueName}
     </select>
-
+    
+	
 </mapper>

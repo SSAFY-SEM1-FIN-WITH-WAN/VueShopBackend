@@ -49,7 +49,7 @@ public class S3FileService {
         }
     }
 
-    public String uploadFileToS3(MultipartFile file) throws IOException {
+    public String uploadFileToS3(MultipartFile file,double minTMP, double maxTMP) throws IOException {
         // UUID와 파일 이름, 타임스탬프를 결합하여 고유 objectKey 생성
         String fileName = file.getOriginalFilename();
         String uniqueFileName = UUID.randomUUID().toString() + "_" + System.currentTimeMillis() + "_" + fileName;
@@ -71,6 +71,8 @@ public class S3FileService {
         ClothImage image = new ClothImage();
         image.setOriginalName(fileName);
         image.setUniqueName(uniqueFileName);
+        image.setMinTemp(minTMP);
+        image.setMaxTemp(maxTMP);
         imageDao.insertImage(image);
         return uniqueFileName;  // S3에 업로드된 고유 파일명 반환
     }
