@@ -81,7 +81,7 @@ public class BoardController {
 		if (!result)
 			return new ResponseEntity<Void> (HttpStatus.BAD_REQUEST);
 		
-		return new ResponseEntity<Void> (HttpStatus.CREATED);
+		return new ResponseEntity<Board> (board, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{boardId}")
