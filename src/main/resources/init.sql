@@ -52,16 +52,6 @@ CREATE TABLE ClothImage (
     max_tmp double NOT NULL
 );
 
--- ProfileImage 테이블 생성
-CREATE TABLE ProfileImage (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    file_name VARCHAR(255) NOT NULL,
-    file_path TEXT NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES User(id) ON DELETE CASCADE
-
-);
-
 -- BoardImage 테이블 생성
 CREATE TABLE BoardImage (
     id INT AUTO_INCREMENT PRIMARY KEY,
