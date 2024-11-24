@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.commerce.demo.comment.dao.CommentDao;
 import com.ssafy.commerce.demo.comment.dto.Comment;
+import com.ssafy.commerce.demo.comment.dto.CommentWithUserProfile;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -16,11 +17,20 @@ public class CommentServiceImpl implements CommentService {
 		this.commentDao = commentDao;
 	}
 
+//	@Override
+//	public List<Comment> getCommentList(int boardId) {
+//		
+//		List<Comment> comments = commentDao.selectAll(boardId);
+//		for (Comment comment : comments)
+//			System.out.println(comment);
+//		return comments;
+//	}
+	
 	@Override
-	public List<Comment> getCommentList(int boardId) {
+	public List<CommentWithUserProfile> getCommentList(int boardId) {
 		
-		List<Comment> comments = commentDao.selectAll(boardId);
-		for (Comment comment : comments)
+		List<CommentWithUserProfile> comments = commentDao.selectAll(boardId);
+		for (CommentWithUserProfile comment : comments)
 			System.out.println(comment);
 		return comments;
 	}
