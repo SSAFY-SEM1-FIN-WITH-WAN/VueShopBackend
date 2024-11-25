@@ -5,7 +5,7 @@
 
 <mapper namespace="com.ssafy.commerce.demo.board.dao.BoardDao">
 
-	<select id="selectAll" resultType="com.ssafy.commerce.demo.board.dto.Board">
+<!-- 	<select id="selectAll" resultType="com.ssafy.commerce.demo.board.dto.Board">
 		SELECT * FROM Board;
 	</select>
 	
@@ -22,6 +22,55 @@
 	<select id="selectOne" parameterType="int" resultType="com.ssafy.commerce.demo.board.dto.Board">
 		SELECT * FROM Board
 		WHERE id = #{id};
+	</select> -->
+
+	<select id="selectAll" resultType="com.ssafy.commerce.demo.board.dto.BoardWithUserProfile">
+	    SELECT 
+	        b.id, 
+	        b.user_id, 
+	        b.user_name, 
+	        b.title, 
+	        b.content, 
+	        b.view_cnt, 
+	        b.created_at, 
+	        u.file_path AS userFilePath
+	    FROM Board b
+	    JOIN User u ON b.user_id = u.id;
+	</select>
+	
+	<select id="search" parameterType="com.ssafy.commerce.demo.board.dto.SearchCondition" resultType="com.ssafy.commerce.demo.board.dto.BoardWithUserProfile">
+	    SELECT 
+	        b.id, 
+	        b.user_id, 
+	        b.user_name, 
+	        b.title, 
+	        b.content, 
+	        b.view_cnt, 
+	        b.created_at, 
+	        u.file_path AS userFilePath
+	    FROM Board b
+	    JOIN User u ON b.user_id = u.id
+	    <if test="key != 'none'">
+	        WHERE ${key} LIKE concat('%', #{word}, '%')
+	    </if>
+	    <if test="orderBy != 'none'">
+	        ORDER BY ${orderBy} ${orderByDir}
+	    </if>
+	</select>
+	
+	<select id="selectOne" parameterType="int" resultType="com.ssafy.commerce.demo.board.dto.BoardWithUserProfile">
+	    SELECT 
+	        b.id, 
+	        b.user_id, 
+	        b.user_name, 
+	        b.title, 
+	        b.content, 
+	        b.view_cnt, 
+	        b.created_at, 
+	        u.file_path AS userFilePath
+	    FROM Board b
+	    JOIN User u ON b.user_id = u.id
+	    WHERE b.id = #{id};
 	</select>
 
 	<update id="updateViewCnt" parameterType="int">

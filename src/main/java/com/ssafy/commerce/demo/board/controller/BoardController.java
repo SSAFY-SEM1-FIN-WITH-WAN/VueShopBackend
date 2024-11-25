@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.commerce.demo.board.dto.Board;
+import com.ssafy.commerce.demo.board.dto.BoardWithUserProfile;
 import com.ssafy.commerce.demo.board.dto.SearchCondition;
 import com.ssafy.commerce.demo.board.service.BoardService;
 import com.ssafy.commerce.demo.user.dto.User;
@@ -36,34 +37,64 @@ public class BoardController {
 		this.boardService = boardService;
 	}
 	
+//	@GetMapping("")
+//	public ResponseEntity<?> boardList() {
+//		
+//		List<Board> list = boardService.getBoardList();
+//		if (list == null || list.isEmpty())
+//			return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
+//		
+//		return new ResponseEntity<List<Board>> (list, HttpStatus.OK);
+//	}
+//	
+//	@GetMapping("/search")
+//	public ResponseEntity<?> search(@ModelAttribute SearchCondition condition) {
+//		
+//		List<Board> list = boardService.searchBoard(condition);
+//		if (list == null || list.isEmpty())
+//			return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
+//		
+//		return new ResponseEntity<List<Board>> (list, HttpStatus.OK);
+//	}
+//	
+//	@GetMapping("/{boardId}")
+//	public ResponseEntity<?> detail(@PathVariable int boardId) {
+//		
+//		Board board = boardService.getBoard(boardId);
+//		if (board == null)
+//			return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
+//		
+//		return new ResponseEntity<Board> (board, HttpStatus.OK);
+//	}
+	
 	@GetMapping("")
 	public ResponseEntity<?> boardList() {
 		
-		List<Board> list = boardService.getBoardList();
+		List<BoardWithUserProfile> list = boardService.getBoardList();
 		if (list == null || list.isEmpty())
 			return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
 		
-		return new ResponseEntity<List<Board>> (list, HttpStatus.OK);
+		return new ResponseEntity<List<BoardWithUserProfile>> (list, HttpStatus.OK);
 	}
 	
 	@GetMapping("/search")
 	public ResponseEntity<?> search(@ModelAttribute SearchCondition condition) {
 		
-		List<Board> list = boardService.searchBoard(condition);
+		List<BoardWithUserProfile> list = boardService.searchBoard(condition);
 		if (list == null || list.isEmpty())
 			return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
 		
-		return new ResponseEntity<List<Board>> (list, HttpStatus.OK);
+		return new ResponseEntity<List<BoardWithUserProfile>> (list, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{boardId}")
 	public ResponseEntity<?> detail(@PathVariable int boardId) {
 		
-		Board board = boardService.getBoard(boardId);
+		BoardWithUserProfile board = boardService.getBoard(boardId);
 		if (board == null)
 			return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
 		
-		return new ResponseEntity<Board> (board, HttpStatus.OK);
+		return new ResponseEntity<BoardWithUserProfile> (board, HttpStatus.OK);
 	}
 	
 	@PostMapping("")
@@ -81,7 +112,7 @@ public class BoardController {
 		if (!result)
 			return new ResponseEntity<Void> (HttpStatus.BAD_REQUEST);
 		
-		return new ResponseEntity<Void> (HttpStatus.CREATED);
+		return new ResponseEntity<Board> (board, HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/{boardId}")
@@ -91,7 +122,8 @@ public class BoardController {
 		User user = userService.getUser(accountId);
 		int userId = user.getId();
 		
-		Board savedBoard = boardService.getBoard(boardId);
+//		Board savedBoard = boardService.getBoard(boardId);
+		BoardWithUserProfile savedBoard = boardService.getBoard(boardId);
 		int savedUserId = savedBoard.getUserId();
 
 		if (userId != savedUserId)
@@ -115,7 +147,8 @@ public class BoardController {
 		int userId = user.getId();
 		String adminType = user.getType();
 		
-		Board board = boardService.getBoard(boardId);
+//		Board board = boardService.getBoard(boardId);
+		BoardWithUserProfile board = boardService.getBoard(boardId);
 		int savedUserId = board.getUserId();
 		
 		if (!adminType.equals("super"))
