@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.commerce.demo.comment.dto.Comment;
+import com.ssafy.commerce.demo.comment.dto.CommentWithUserProfile;
 import com.ssafy.commerce.demo.comment.service.CommentService;
 import com.ssafy.commerce.demo.user.dto.User;
 import com.ssafy.commerce.demo.user.service.UserService;
@@ -34,14 +35,24 @@ public class CommentController {
 		this.commentService = commentService;
 	}
 	
+//	@GetMapping("/{boardId}/comments")
+//	public ResponseEntity<?> commentList(@PathVariable int boardId) {
+//		
+//		List<Comment> list = commentService.getCommentList(boardId);
+//		if (list == null || list.isEmpty())
+//			return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
+//		
+//		return new ResponseEntity<List<Comment>> (list, HttpStatus.OK);
+//	}
+	
 	@GetMapping("/{boardId}/comments")
 	public ResponseEntity<?> commentList(@PathVariable int boardId) {
 		
-		List<Comment> list = commentService.getCommentList(boardId);
+		List<CommentWithUserProfile> list = commentService.getCommentList(boardId);
 		if (list == null || list.isEmpty())
 			return new ResponseEntity<Void> (HttpStatus.NO_CONTENT);
 		
-		return new ResponseEntity<List<Comment>> (list, HttpStatus.OK);
+		return new ResponseEntity<List<CommentWithUserProfile>> (list, HttpStatus.OK);
 	}
 	
 	@PostMapping("/{boardId}/comments")
