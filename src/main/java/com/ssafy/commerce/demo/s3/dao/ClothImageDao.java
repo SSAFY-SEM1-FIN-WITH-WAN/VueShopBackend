@@ -8,4 +8,5 @@ import com.ssafy.commerce.demo.s3.entity.ClothImage;
 public interface ClothImageDao {
 	void insertImage(ClothImage image);
 	ClothImage selectImageByUniqueName(String uniqueName);
+	ClothImage selectImageByTemperature(double temperature);
 }

@@ -52,6 +52,8 @@ CREATE TABLE ClothImage (
     max_tmp double NOT NULL
 );
 
+
+
 -- BoardImage 테이블 생성
 CREATE TABLE BoardImage (
     id INT AUTO_INCREMENT PRIMARY KEY,

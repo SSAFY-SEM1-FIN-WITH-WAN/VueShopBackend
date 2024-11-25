@@ -47,7 +47,7 @@ public class WeatherServiceImpl implements WeatherService{
 
     public WeatherResponseDto requestWeather(double longitude, double latitude,String type,String timeValue,String pageNo,String page) throws IOException{
         StringBuilder urlBuilder = getUrlBuilder((int) longitude, (int) latitude, reqDate, timeValue, type,pageNo,page);
-//        System.out.println(urlBuilder.toString());
+        System.out.println(urlBuilder.toString());
         URL url = new URL(urlBuilder.toString());
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
