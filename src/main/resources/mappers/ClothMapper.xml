@@ -6,7 +6,7 @@
 	
 	
 	<select id="selectImageByTemperature" resultType="com.ssafy.commerce.demo.s3.entity.ClothImage" parameterType="double">
-		SELECT * FROM image
+		SELECT * FROM clothimage
 		<![CDATA[WHERE min_tmp <= #{temperature}
 		AND max_tmp >= #{temperature}
 		]]>

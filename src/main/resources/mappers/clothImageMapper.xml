@@ -7,7 +7,7 @@
 
     <!-- 이미지 정보 삽입 -->
     <insert id="insertImage" parameterType="com.ssafy.commerce.demo.s3.entity.ClothImage">
-        INSERT INTO image (original_name, unique_name, min_tmp, max_tmp)
+        INSERT INTO clothimage (original_name, unique_name, min_tmp, max_tmp)
         VALUES (#{originalName}, #{uniqueName}, #{minTemp}, #{maxTemp})
     </insert>
     
