@@ -15,7 +15,6 @@ import com.ssafy.commerce.demo.weather.dto.WeatherResponseDto;
 import com.ssafy.commerce.demo.weather.service.WeatherService;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("api/v1")
 public class ClothController {
 

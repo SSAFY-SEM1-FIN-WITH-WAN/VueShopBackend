@@ -26,7 +26,6 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/boards")
-@CrossOrigin("*")
 public class BoardController {
 
 	private final UserService userService;

@@ -175,6 +175,21 @@
 	<build>
 		<plugins>
 			<plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-resources-plugin</artifactId>
+	            <version>3.2.0</version>
+	            <executions>
+	                <execution>
+	                    <goals>
+	                        <goal>resources</goal>
+	                    </goals>
+	                    <configuration>
+	                        <outputDirectory>${project.build.outputDirectory}/</outputDirectory>
+	                    </configuration>
+	                </execution>
+	            </executions>
+	        </plugin>
+			<plugin>
 				<groupId>org.asciidoctor</groupId>
 				<artifactId>asciidoctor-maven-plugin</artifactId>
 				<version>2.2.1</version>

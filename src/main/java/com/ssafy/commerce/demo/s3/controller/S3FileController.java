@@ -14,7 +14,6 @@ import com.ssafy.commerce.demo.s3.service.S3FileService;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api")
 public class S3FileController {
 
