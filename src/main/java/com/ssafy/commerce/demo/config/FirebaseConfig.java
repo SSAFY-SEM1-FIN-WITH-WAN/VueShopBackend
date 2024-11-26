@@ -27,7 +27,8 @@ public class FirebaseConfig {
     @PostConstruct
     public FirebaseApp firebaseApp() throws IOException {
         if(FirebaseApp.getApps().isEmpty()){
-            FileInputStream serviceAccount  = new FileInputStream(firebaseKeyPath);
+//        	InputStream serviceAccount = getClass().getClassLoader().getResourceAsStream(firebaseKeyPath);
+            FileInputStream serviceAccount  = new FileInputStream(firebaseKeyPath);//local
 
             FirebaseOptions options = FirebaseOptions.builder()
                     .setCredentials(GoogleCredentials.fromStream(serviceAccount))

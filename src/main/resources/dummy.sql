@@ -4,6 +4,12 @@ USE whats_you_db;
 INSERT INTO User (type, account_id, password, nickname, birth_date, zodiac_sign, file_name, file_path, created_at) VALUES 
 ('super', 'admin', 'admin', 'admin', '2000-01-01', '염소자리', 'images/profiles/980970d3-3772-4a59-9f1c-a02680e19720.png', 'https://firebasestorage.googleapis.com/v0/b/whatsyoulook-11c33.firebasestorage.app/o/images%2Fprofiles%2F980970d3-3772-4a59-9f1c-a02680e19720.png?alt=media&token=5a619049-f799-432e-aac2-bbeced00195f', '2000-01-01 00:00:00');
 
+INSERT INTO clothimage (original_name, unique_name, min_tmp, max_tmp)
+        VALUES 
+        ('겨울3', '456313d1-47d2-4dde-9b78-c2eeec7ae6e0_1732499059544_겨울3.jpg', '-20', '40'),
+        ('여착장', '76657504-b5ad-4285-8e24-94d453e61b37_1732515502969_여착장.png', '-20', '40'),
+        ('겨울3', '456313d1-47d2-4dde-9b78-c2eeec7ae6e0_1732499059544_겨울3.jpg', '-20', '40');
+
 -- 일반 계정
 INSERT INTO User (account_id, password, nickname, birth_date, zodiac_sign, file_name, file_path, created_at) VALUES
 ('test1', 'test1', '펭하', '1999-10-31', '전갈자리', 'images/profiles/d69017b0-4403-4fad-80ca-40e1395b6b67.jpg', 'https://storage.googleapis.com/whatsyoulook-11c33.firebasestorage.app/images/profiles/d69017b0-4403-4fad-80ca-40e1395b6b67.jpg?GoogleAccessId=firebase-adminsdk-9r4um@whatsyoulook-11c33.iam.gserviceaccount.com&Expires=1733323647&Signature=fY6wNL00LEG5SQABYQ6yjUXY%2FjUSYyLkuZpYQbndn4vvGQtUnIGVKiklS5X6GTyC83ESYtCYmvW4OwDK4ojBW663P2ce7TIrFk0Dn2xpo%2FlugoAbQOj8YrcGLgKNFN%2FFi91iB152CwcfFIgrVL6KdkSiDJXZsjZ4U8dJmY3%2B744JnQ9H5uX0T1st4orQCixAQ%2FueP%2BfJO0PrHw5qqbjA1tv%2BTl4dcByqSYsExl%2Bvd0equlu7QkJVHlSsS1MB%2Bk30PUgg%2BnFvnsxtjufzS%2BGEjpklOdGI0LrwGX6U2n5KN1f4y2L%2Fkx93GrmSb8itipVwJdW%2Fk0tm93X3wNCNXqPUBQ%3D%3D', '2023-12-31 21:10:13'),
